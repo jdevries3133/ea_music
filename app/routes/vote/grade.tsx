@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { SyntheticEvent, useState } from "react";
 import {
   ActionFunction,
   Form,
+  Link,
   LoaderFunction,
   redirect,
   useLoaderData,
@@ -14,9 +14,9 @@ import { getSession } from "~/sessions";
 import filterPosters from "~/utils/filterPosters";
 import { randomSelect } from "~/services/randomSelect";
 import { countVote } from "~/services/countVote";
+import prisma from "~/prisma";
 
 export const action: ActionFunction = async ({ request }) => {
-  const prisma = new PrismaClient();
   const session = await getSession(request.headers.get("Cookie"));
   if (!session.has("userId")) {
     return redirect("/login");
@@ -66,7 +66,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const prisma = new PrismaClient();
   const session = await getSession(request.headers.get("Cookie"));
   if (!session.has("userId")) {
     return redirect("/login");
@@ -90,7 +89,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const posters = filterPosters(all);
   const gradePosters = posters.gradeLevel[gradeLevel];
 
-  const result = randomSelect(gradePosters, user);
+  const result = await randomSelect(gradePosters, user, "GRADE");
   if (result) {
     const { posterA, posterB } = result;
     return {
@@ -125,19 +124,26 @@ export default function Grade() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
-      <h1>Vote for a Poster</h1>
-      <h2>Voting for posters in the {gradeLevel}th grade.</h2>
-      <p>Click on your favorite poster!</p>
-      <Form method="post">
-        <input name="posterChoice" type="hidden" value={choice} />
-        <input
-          name="loser"
-          type="hidden"
-          value={posterA === choice ? posterB : posterA}
-        />
-        <VoteChoice a={posterA} b={posterB} onChosen={onPosterChosen} />
-      </Form>
-    </div>
+    <>
+      <Link to="/votingType">
+        <button className="fixed top-2 right-2 bg-gray-100 p-2 rounded">
+          Go Back
+        </button>
+      </Link>
+      <div className="flex flex-col min-h-screen items-center justify-center">
+        <h1>Vote for a Poster</h1>
+        <h2>Voting for posters in the {gradeLevel}th grade.</h2>
+        <p>Click on your favorite poster!</p>
+        <Form method="post">
+          <input name="posterChoice" type="hidden" value={choice} />
+          <input
+            name="loser"
+            type="hidden"
+            value={posterA === choice ? posterB : posterA}
+          />
+          <VoteChoice a={posterA} b={posterB} onChosen={onPosterChosen} />
+        </Form>
+      </div>
+    </>
   );
 }

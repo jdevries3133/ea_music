@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { useState } from "react";
 import {
   ActionFunction,
@@ -10,6 +9,7 @@ import {
 } from "remix";
 import findStudent from "~/services/findStudent";
 import { commitSession, getSession } from "~/sessions";
+import prisma from "~/prisma";
 
 type ActionData = {
   name: string;
@@ -20,7 +20,6 @@ type ActionData = {
 export const action: ActionFunction = async ({
   request,
 }): Promise<ActionData | Response> => {
-  const prisma = new PrismaClient();
   const session = await getSession(request.headers.get("Cookie"));
   if (session.has("userId")) {
     return redirect("/votingType");
