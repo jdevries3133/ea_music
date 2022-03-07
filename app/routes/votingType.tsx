@@ -32,7 +32,7 @@ export default function VotingType() {
         text="Vote for posters within your homeroom"
         imageSrc="/homeroom.svg"
         alt="drawing of students sitting at desks"
-        href="/vote/grade/"
+        href="/vote/homeroom/"
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import prisma from "~/prisma";
 
 type VoteData = {
   voteType: "SCHOOL" | "GRADE" | "HOMEROOM";
@@ -10,8 +10,6 @@ type VoteData = {
  * Count a poster vote
  */
 export const countVote = async (vote: VoteData, user: User) => {
-  const prisma = new PrismaClient();
-
   return await prisma.vote.create({
     data: {
       loser: vote.loser,

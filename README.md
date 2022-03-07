@@ -15,8 +15,12 @@ will provide the fingerprinting service.
 
 ## Which views are required for tomorrow?
 
-- [ ] login
-- [ ] poster vote
+- [x] login
+- [~] poster vote
+  - [ ] homeroom and school-wide options
+  - [x] when generating the random choices, skip things the user has seen
+  - [ ] transition UI for voting, and UI to show that the vote has been
+        recorded
 
 ## Security: How will student privacy be protected?
 

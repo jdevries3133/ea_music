@@ -29,15 +29,33 @@ provider "helm" {
   }
 }
 
+variable "aws_access_key_id" {
+  type = string
+  sensitive = true
+}
+
+variable "aws_secret_access_key" {
+  type = string
+  sensitive = true
+}
+
+resource "random_password" "session_secret" {
+  length = 16
+  special = false
+}
+
 module "basic-deployment" {
   source  = "jdevries3133/basic-deployment/kubernetes"
   version = "0.0.9"
 
-  app_name  = "ea_music"
-  container = "jdevries3133/ea_music:0.1.0"
+  app_name  = "ea-music"
+  container = "jdevries3133/ea_music:v0.1.1rc1"
   domain    = "empacadmusic.org"
 
   extra_env = {
     STUDENT_DATA = file("./student_data.json")
+    AWS_ACCESS_KEY_ID = var.aws_access_key_id
+    AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key
+    SECRET_KEY = random_password.session_secret.result
   }
 }

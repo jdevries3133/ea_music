@@ -10,6 +10,8 @@ services:
       - "8002:8002"
         # prisma studio, which can be run with `docker exec` when needed
       - "5555:5555"
+        # port for remote debugging node.js via chrome dev tools
+      - "9229:9229"
     entrypoint:
       - sh
       - entrypoint_dev.sh
