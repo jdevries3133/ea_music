@@ -18,6 +18,7 @@ services:
       - ./styles:/app/styles
       - ./public:/app/public
       - ./migrations:/app/migrations
+      - ./schema.prisma:/app/schema.prisma
     links:
       - db
     environment:
@@ -25,6 +26,10 @@ services:
       POSTGRES_PASSWORD: app
       POSTGRES_DB: app
       POSTGRES_HOST: db
+      STUDENT_DATA: ${STUDENT_DATA}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      SECRET_KEY: ${SECRET_KEY}
     # Prisma is broken on arm; see https://github.com/prisma/prisma/issues/10761
     platform: linux/amd64
   db:

@@ -7,14 +7,28 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id          Int    @id @default(autoincrement())
+  studentName String @unique
+  Votes       Vote[]
+}
+
+enum VoteType {
+  SCHOOL
+  GRADE
+  HOMEROOM
+}
+
 model Vote {
-  id         Int      @id @default(autoincrement())
-  timestamp  DateTime @default(now())
-  voter_name String
+  id        Int      @id @default(autoincrement())
+  voterId   Int
+  Voter     User     @relation(fields: [voterId], references: [id])
+  timestamp DateTime @default(now())
+  type      VoteType
 
   // path to the poster in an S3 bucket
-  winner     String
+  winner String
 
   // path to the poster in an S3 bucket
-  loser     String
+  loser String
 }

@@ -36,4 +36,8 @@ module "basic-deployment" {
   app_name  = "ea_music"
   container = "jdevries3133/ea_music:0.1.0"
   domain    = "empacadmusic.org"
+
+  extra_env = {
+    STUDENT_DATA = file("./student_data.json")
+  }
 }

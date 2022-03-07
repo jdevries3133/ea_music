@@ -10,4 +10,12 @@
   .link {
     @apply text-blue-500 underline font-semibold visited:text-purple-600;
   }
+
+  label {
+    @apply block;
+  }
+
+  input[type="text"] {
+    @apply block rounded;
+  }
 }
