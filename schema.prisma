@@ -1,0 +1,20 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Vote {
+  id         Int      @id @default(autoincrement())
+  timestamp  DateTime @default(now())
+  voter_name String
+
+  // path to the poster in an S3 bucket
+  winner     String
+
+  // path to the poster in an S3 bucket
+  loser     String
+}
