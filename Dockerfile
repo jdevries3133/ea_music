@@ -10,4 +10,4 @@ COPY . .
 
 RUN yarn build
 
-ENTRYPOINT ["sh", "entrypoint.sh"]
+ENTRYPOINT ["sh", "scripts/entrypoint.sh"]
