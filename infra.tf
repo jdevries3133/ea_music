@@ -39,6 +39,10 @@ variable "aws_secret_access_key" {
   sensitive = true
 }
 
+data "external" "git_describe" {
+  program = ["sh", "scripts/git_describe.sh"]
+}
+
 resource "random_password" "session_secret" {
   length = 16
   special = false
@@ -49,7 +53,7 @@ module "basic-deployment" {
   version = "0.0.9"
 
   app_name  = "ea-music"
-  container = "jdevries3133/ea_music:v0.2.0"
+  container = "jdevries3133/ea_music:${data.external.git_describe.result.output}"
   domain    = "empacadmusic.org"
 
   extra_env = {
