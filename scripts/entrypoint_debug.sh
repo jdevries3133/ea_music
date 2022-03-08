@@ -2,9 +2,9 @@
 
 # Debug entrypoint
 
-echo "DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB" \
-    >> .env
+export PORT=8000 
+export DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB 
 
 yarn prisma:migrate-prod
 
-exec node --inspect-brk=0.0.0.0 ./node_modules/.bin/remix dev
+node --inspect-brk=0.0.0.0 ./node_modules/.bin/remix dev

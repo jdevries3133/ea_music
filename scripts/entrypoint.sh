@@ -2,10 +2,9 @@
 
 # Production entrypoint
 
-echo "DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB" \
-    >> .env
+export DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB
+export PORT=8000
 
-yarn prisma:generate
 yarn prisma:migrate-prod
 
-exec yarn start
+yarn start
