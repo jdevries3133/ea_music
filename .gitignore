@@ -13,3 +13,6 @@ posters
 
 secret.auto.tfvars
 .terraform*
+
+__pycache__
+*.pyc
