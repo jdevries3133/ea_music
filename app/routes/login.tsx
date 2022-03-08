@@ -28,11 +28,14 @@ export const action: ActionFunction = async ({
   const name = form.get("name");
 
   if (name) {
-    const match = findStudent(name as string);
-    if (match === true) {
+    // validate the name amongst the list of student names. If the name is valid,
+    // check if a user exists with that name. If not, create one. Then, set the
+    // session ID and redirect
+    const result = findStudent(name as string);
+    if (result.isMatch === true) {
       let user = await prisma.user.findFirst({
         where: {
-          studentName: name as string,
+          studentName: result.matchingName,
         },
       });
       if (user) {
@@ -40,7 +43,7 @@ export const action: ActionFunction = async ({
       } else {
         let user = await prisma.user.create({
           data: {
-            studentName: name as string,
+            studentName: result.matchingName,
           },
         });
         session.set("userId", user.id);
@@ -54,7 +57,7 @@ export const action: ActionFunction = async ({
       return {
         name: name as string,
         match: false,
-        names: match,
+        names: result.closeMatches,
       };
     }
   }

@@ -3,7 +3,7 @@ import prisma from "~/prisma";
 
 /**
  * Given an array of posters, randomly select two posters for voting. Will not
- * return a poster that the user has voted on before.
+ * return a poster that the user has voted for before.
  *
  * May return `null` if the user has no more posters to view within this group
  * of posterPaths
