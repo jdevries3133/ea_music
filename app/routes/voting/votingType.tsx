@@ -20,19 +20,19 @@ export default function VotingType() {
         text="Vote for posters across the school"
         imageSrc="/school.svg"
         alt="drawing of school building"
-        href="/vote/school/"
+        href="/voting/castVote/school/"
       />
       <Card
         text="Vote for posters within your grade level"
         imageSrc="/grade.svg"
         alt="drawing of students sitting at desks"
-        href="/vote/grade/"
+        href="/voting/castVote/grade/"
       />
       <Card
         text="Vote for posters within your homeroom"
         imageSrc="/homeroom.svg"
         alt="drawing of students sitting at desks"
-        href="/vote/homeroom/"
+        href="/voting/castVote/homeroom/"
       />
     </div>
   );

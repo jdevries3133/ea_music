@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({
 }): Promise<ActionData | Response> => {
   const session = await getSession(request.headers.get("Cookie"));
   if (session.has("userId")) {
-    return redirect("/votingType");
+    return redirect("/voting/votingType");
   }
   const form = await request.formData();
   const name = form.get("name");
@@ -48,7 +48,7 @@ export const action: ActionFunction = async ({
         });
         session.set("userId", user.id);
       }
-      return redirect("/votingType", {
+      return redirect("/voting/votingType", {
         headers: {
           "Set-Cookie": await commitSession(session),
         },
@@ -68,7 +68,7 @@ export const action: ActionFunction = async ({
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   if (session.has("userId")) {
-    return redirect("/votingType");
+    return redirect("/voting/votingType");
   }
   return null;
 };

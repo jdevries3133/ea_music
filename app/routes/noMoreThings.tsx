@@ -14,7 +14,7 @@ export default function NoMoreThings() {
           If you haven't already, try browsing a different collection of
           posters, like posters from the whole school.
         </p>
-        <Link to="/votingType">See more stuff</Link>
+        <Link to="/voting/votingType">See more stuff</Link>
       </div>
     </div>
   );

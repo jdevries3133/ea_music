@@ -9,6 +9,7 @@ import {
 } from "remix";
 import { VoteChoice } from "~/components/voteChoice";
 import listPosters from "~/services/listPosters";
+import { getGradeLevel } from "~/services/student";
 import { getSession } from "~/sessions";
 import filterPosters from "~/utils/filterPosters";
 import { randomSelect } from "~/services/randomSelect";
@@ -28,6 +29,12 @@ export const action: ActionFunction = async ({ request }) => {
   if (!user) {
     return { error: "user could not be created" };
   }
+  const gradeLevel = getGradeLevel(user.studentName);
+  if (gradeLevel === null) {
+    return {
+      error: `could not lookup grade level for ${user.studentName}`,
+    };
+  }
 
   const form = await request.formData();
   const winner = form.get("posterChoice");
@@ -37,15 +44,16 @@ export const action: ActionFunction = async ({ request }) => {
   // possible choices
   const all = await listPosters();
   const posters = filterPosters(all);
+  const gradePosters = posters.gradeLevel[gradeLevel];
   if (
     winner &&
-    posters.all.includes(winner as string) &&
+    gradePosters.includes(winner as string) &&
     loser &&
-    posters.all.includes(loser as string)
+    gradePosters.includes(loser as string)
   ) {
     countVote(
       {
-        voteType: "SCHOOL",
+        voteType: "GRADE",
         loser: loser as string,
         winner: winner as string,
       },
@@ -70,28 +78,31 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!user) {
     return { error: "user could not be created" };
   }
+  const gradeLevel = getGradeLevel(user.studentName);
+  if (gradeLevel === null) {
+    return {
+      error: `could not lookup grade level for ${user.studentName}`,
+    };
+  }
 
-  const rawPosters = await listPosters();
-  const posters = filterPosters(rawPosters);
+  const all = await listPosters();
+  const posters = filterPosters(all);
+  const gradePosters = posters.gradeLevel[gradeLevel];
 
-  const result = await randomSelect(posters.all, user, "SCHOOL");
+  const result = await randomSelect(gradePosters, user, "GRADE");
   if (result) {
     const { posterA, posterB } = result;
     return {
+      gradeLevel,
       posterA,
       posterB,
     };
   }
   return redirect("/noMoreThings");
 };
-
-export default function School() {
+export default function Grade() {
   const [choice, setChoice] = useState("");
-  const { posterA, posterB, error } = useLoaderData();
-
-  if (posterA === undefined) {
-    return redirect("/noMoreThings");
-  }
+  const { gradeLevel, posterA, posterB, error } = useLoaderData();
 
   if (error) {
     return (
@@ -110,14 +121,14 @@ export default function School() {
 
   return (
     <>
-      <Link to="/votingType">
+      <Link to="/voting/votingType">
         <button className="fixed top-2 right-2 bg-gray-100 p-2 rounded">
           Go Back
         </button>
       </Link>
       <div className="flex flex-col min-h-screen items-center justify-center">
         <h1>Vote for a Poster</h1>
-        <h2>Voting for posters in the whole school.</h2>
+        <h2>Voting for posters in the {gradeLevel}th grade.</h2>
         <p>Click on your favorite poster!</p>
         <Form method="post">
           <input name="posterChoice" type="hidden" value={choice} />

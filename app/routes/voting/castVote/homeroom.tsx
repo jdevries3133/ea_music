@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { SyntheticEvent, useState } from "react";
 import {
   ActionFunction,
@@ -9,7 +10,7 @@ import {
 } from "remix";
 import { VoteChoice } from "~/components/voteChoice";
 import listPosters from "~/services/listPosters";
-import { getGradeLevel } from "~/services/student";
+import { getHomeroomCode } from "~/services/student";
 import { getSession } from "~/sessions";
 import filterPosters from "~/utils/filterPosters";
 import { randomSelect } from "~/services/randomSelect";
@@ -29,10 +30,10 @@ export const action: ActionFunction = async ({ request }) => {
   if (!user) {
     return { error: "user could not be created" };
   }
-  const gradeLevel = getGradeLevel(user.studentName);
-  if (gradeLevel === null) {
+  const homeroomCode = getHomeroomCode(user.studentName);
+  if (homeroomCode === null) {
     return {
-      error: `could not lookup grade level for ${user.studentName}`,
+      error: `could not lookup homeroom code for ${user.studentName}`,
     };
   }
 
@@ -44,16 +45,16 @@ export const action: ActionFunction = async ({ request }) => {
   // possible choices
   const all = await listPosters();
   const posters = filterPosters(all);
-  const gradePosters = posters.gradeLevel[gradeLevel];
+  const homeroomPostes = posters.homeroom[homeroomCode];
   if (
     winner &&
-    gradePosters.includes(winner as string) &&
+    homeroomPostes.includes(winner as string) &&
     loser &&
-    gradePosters.includes(loser as string)
+    homeroomPostes.includes(loser as string)
   ) {
     countVote(
       {
-        voteType: "GRADE",
+        voteType: "HOMEROOM",
         loser: loser as string,
         winner: winner as string,
       },
@@ -78,31 +79,33 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!user) {
     return { error: "user could not be created" };
   }
-  const gradeLevel = getGradeLevel(user.studentName);
-  if (gradeLevel === null) {
+  const homeroomCode = getHomeroomCode(user.studentName);
+  if (homeroomCode === null) {
     return {
-      error: `could not lookup grade level for ${user.studentName}`,
+      error: `could not lookup homeroom for ${user.studentName}`,
     };
   }
 
   const all = await listPosters();
   const posters = filterPosters(all);
-  const gradePosters = posters.gradeLevel[gradeLevel];
+  const homeroomPosters = posters.homeroom[homeroomCode];
 
-  const result = await randomSelect(gradePosters, user, "GRADE");
+  const result = await randomSelect(homeroomPosters, user, "HOMEROOM");
   if (result) {
     const { posterA, posterB } = result;
     return {
-      gradeLevel,
+      homeroomCode,
       posterA,
       posterB,
     };
   }
+
   return redirect("/noMoreThings");
 };
-export default function Grade() {
+
+export default function homeroom() {
   const [choice, setChoice] = useState("");
-  const { gradeLevel, posterA, posterB, error } = useLoaderData();
+  const { homeroomCode, posterA, posterB, error } = useLoaderData();
 
   if (error) {
     return (
@@ -121,14 +124,14 @@ export default function Grade() {
 
   return (
     <>
-      <Link to="/votingType">
+      <Link to="/voting/votingType">
         <button className="fixed top-2 right-2 bg-gray-100 p-2 rounded">
           Go Back
         </button>
       </Link>
       <div className="flex flex-col min-h-screen items-center justify-center">
         <h1>Vote for a Poster</h1>
-        <h2>Voting for posters in the {gradeLevel}th grade.</h2>
+        <h2>Voting for posters in homeroom {homeroomCode}.</h2>
         <p>Click on your favorite poster!</p>
         <Form method="post">
           <input name="posterChoice" type="hidden" value={choice} />
