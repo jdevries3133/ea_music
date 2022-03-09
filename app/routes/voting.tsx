@@ -1,4 +1,4 @@
-import { LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
+import { Link, LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
 
 import { getSession } from "~/sessions";
 import prisma from "~/prisma";
@@ -21,10 +21,15 @@ export default function Voting() {
   const name = useLoaderData();
   return (
     <>
-      <p className="m-3">
+      <div className="m-3">
         <span className="font-bold">Name: </span>
         <span className="font-light">{name}</span>
-      </p>
+        <Link to="/logout">
+          <button className="ml-2 bg-red-100 p-1 rounded shadow">
+            Log Out
+          </button>
+        </Link>
+      </div>
       <Outlet />
     </>
   );
