@@ -26,7 +26,9 @@ export const randomSelect = async (
   const seenWinners = seen.map((i) => i.winner);
   const posterChoices = posterPaths.filter((p) => !seenWinners.includes(p));
 
-  if (posterChoices.length < 2) return null;
+  if (posterChoices.length < 2) {
+    return null;
+  }
 
   let a = Math.floor(Math.random() * posterChoices.length);
   let b = Math.floor(Math.random() * posterChoices.length);

@@ -98,15 +98,11 @@ export const loader: LoaderFunction = async ({ request }) => {
       posterB,
     };
   }
-  return {};
+  return redirect("/noMoreThings");
 };
 export default function Grade() {
   const [choice, setChoice] = useState("");
   const { gradeLevel, posterA, posterB, error } = useLoaderData();
-
-  if (posterA === undefined) {
-    return redirect("/noMoreThings");
-  }
 
   if (error) {
     return (

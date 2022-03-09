@@ -72,7 +72,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   const rawPosters = await listPosters();
-  console.log(rawPosters.Contents.length);
   const posters = filterPosters(rawPosters);
 
   const result = await randomSelect(posters.all, user, "SCHOOL");
@@ -83,7 +82,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       posterB,
     };
   }
-  return {};
+  return redirect("/noMoreThings");
 };
 
 export default function School() {
