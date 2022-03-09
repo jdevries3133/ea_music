@@ -34,3 +34,7 @@ CONTAINER=$(DOCKER_ACCOUNT)/$(CONTAINER_NAME):$(TAG)
 .PHONY: push
 push:
 	docker buildx build --platform linux/amd64 --push -t $(CONTAINER) .
+
+deploy:
+	make push
+	terraform apply -auto-approve
