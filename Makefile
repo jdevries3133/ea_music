@@ -31,10 +31,12 @@ TAG?=$(shell git describe --tags)
 CONTAINER=$(DOCKER_ACCOUNT)/$(CONTAINER_NAME):$(TAG)
 
 
+.PHONY: deploy
+deploy: push
+	terraform apply -auto-approve
+
+
 .PHONY: push
 push:
 	docker buildx build --platform linux/amd64 --push -t $(CONTAINER) .
 
-deploy:
-	make push
-	terraform apply -auto-approve
