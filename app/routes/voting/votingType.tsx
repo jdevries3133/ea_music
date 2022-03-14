@@ -34,6 +34,14 @@ export default function VotingType() {
         alt="drawing of students sitting at desks"
         href="/voting/castVote/homeroom/"
       />
+
+      <h3 className="font-serif text-xl">Or</h3>
+      <Card
+        text="See results!"
+        imageSrc="/results.svg"
+        alt="picture or person and a ballot box"
+        href="/voting/results"
+      />
     </div>
   );
 }

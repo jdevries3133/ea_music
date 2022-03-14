@@ -1,6 +1,7 @@
 import Fuse from "fuse.js";
 
-const students: Student[] = JSON.parse(process.env.STUDENT_DATA || "");
+import { students } from "~/utils/students";
+
 const studentNames = students.map(({ name }) => name);
 const fuse = new Fuse(studentNames, {
   includeScore: true,
