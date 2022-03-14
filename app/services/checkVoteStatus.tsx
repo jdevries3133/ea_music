@@ -23,7 +23,7 @@ export const checkVoteStatus = async (user: User): Promise<VoteStatus> => {
   const homeroom = student.homeroom;
   const grade = homeroom.slice(0, 1);
 
-  const seen = await prisma.vote.findMany({
+  const allVotes = await prisma.vote.findMany({
     where: {
       Voter: {
         id: user.id,
@@ -33,27 +33,26 @@ export const checkVoteStatus = async (user: User): Promise<VoteStatus> => {
   const allPosters = filterPosters(await listPosters());
 
   // parse information
-  const seenWinnersSchool = seen
+  const losersSchool = allVotes
     .filter((v) => v.type === "SCHOOL")
-    .map((i) => i.winner);
+    .map((i) => i.loser);
   const remainingChoicesSchool = allPosters.all.filter(
-    (i) => !seenWinnersSchool.includes(i)
+    (i) => !losersSchool.includes(i)
   );
 
-  const seenWinnersGrade = seen
+  const losersGrade = allVotes
     .filter((v) => v.type === "GRADE")
-    .map((i) => i.winner);
+    .map((i) => i.loser);
   const remainingChoicesGrade = allPosters.gradeLevel[grade].filter(
-    (i) => !seenWinnersGrade.includes(i)
+    (i) => !losersGrade.includes(i)
   );
 
-  const seenWinnersHomeroom = seen
+  const losersHomeroom = allVotes
     .filter((v) => v.type === "HOMEROOM")
-    .map((i) => i.winner);
+    .map((i) => i.loser);
   const remainingChoicesHomeroom = allPosters.homeroom[homeroom].filter(
-    (i) => !seenWinnersHomeroom.includes(i)
+    (i) => !losersHomeroom.includes(i)
   );
-  debugger;
 
   let votesRemaining: boolean = false;
   if (
