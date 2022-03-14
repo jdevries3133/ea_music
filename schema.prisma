@@ -26,6 +26,10 @@ model Vote {
   timestamp DateTime @default(now())
   type      VoteType
 
+  // note: S3 bucket paths include student grade levels, homerooms, and names,
+  // because they all follow the naming convention:
+  // `<grade><homeroom>/<student>,<student>.jpg`
+
   // path to the poster in an S3 bucket
   winner String
 

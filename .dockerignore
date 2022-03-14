@@ -12,3 +12,6 @@ form_data.csv
 posters
 
 secret.auto.tfvars
+
+__pycache__
+*.pyc

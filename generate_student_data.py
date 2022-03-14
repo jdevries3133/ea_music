@@ -1,3 +1,14 @@
+"""
+Script to generate student data as described in `.env.template`. Notice that
+in ./infra.tf`, the output of `student_data.json` is read in and injected into
+the pod's environment. This consumes the output of this file, so this script
+should be run first.
+
+This script uses my own teacherhelper library:
+- https://pypi.org/project/teacherhelper/
+- https://github.com/jdevries3133/teacher_helper/
+"""
+
 import json
 
 from teacherhelper import Helper
