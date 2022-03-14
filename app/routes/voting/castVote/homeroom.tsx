@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { SyntheticEvent, useState } from "react";
 import {
   ActionFunction,
