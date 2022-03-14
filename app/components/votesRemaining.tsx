@@ -11,7 +11,6 @@ const word = (n: number) => (n >= 2 ? "times" : "time");
 export const VotesRemaining: React.FC<{ status: VoteStatus }> = ({
   status,
 }) => {
-  console.log(status);
   const cntSchool = status.categories.school.length - 1;
   const cntGr = status.categories.grade.length - 1;
   const cntHr = status.categories.homeroom.length - 1;
