@@ -15,26 +15,12 @@ import filterPosters from "~/utils/filterPosters";
 import { randomSelect } from "~/services/randomSelect";
 import { countVote } from "~/services/countVote";
 import prisma from "~/prisma";
+import { getUser } from "~/services/getUser";
 
 export const action: ActionFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session.get("userId"),
-    },
-  });
-  if (!user) {
-    return { error: "user could not be created" };
-  }
+  const user = await getUser(request);
+  if (!user) return redirect("/login");
   const gradeLevel = getGradeLevel(user.studentName);
-  if (gradeLevel === null) {
-    return {
-      error: `could not lookup grade level for ${user.studentName}`,
-    };
-  }
 
   const form = await request.formData();
   const winner = form.get("posterChoice");

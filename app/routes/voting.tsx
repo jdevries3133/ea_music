@@ -7,18 +7,10 @@ import {
   useTransition,
 } from "remix";
 
-import { getSession } from "~/sessions";
-import prisma from "~/prisma";
+import { getUser } from "~/services/getUser";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const userId = session.get("userId");
-  if (!userId) return redirect("/login");
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
+  const user = await getUser(request);
   if (!user) return redirect("/login");
 
   return user.studentName;

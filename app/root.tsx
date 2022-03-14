@@ -1,4 +1,6 @@
 import {
+  ErrorBoundaryComponent,
+  Link,
   Links,
   LinksFunction,
   LiveReload,
@@ -33,6 +35,20 @@ export const links: LinksFunction = () => {
     { rel: "manifest", href: "/site.webmanifest" },
     { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#5bbad5" },
   ];
+};
+
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+  console.error(error);
+  return (
+    <div className="flex items-center justify-center">
+      <div className="prose">
+        <h1>Error</h1>
+        <Link to="/logout">
+          <p>Try again</p>
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default function App() {

@@ -1,21 +1,13 @@
 import { LoaderFunction, redirect, useLoaderData } from "remix";
 
 import { VotesRemaining } from "~/components/votesRemaining";
-import { getSession } from "~/sessions";
-import prisma from "~/prisma";
 import { checkVoteStatus, VoteStatus } from "~/services/checkVoteStatus";
+import { getUser } from "~/services/getUser";
 
 export const loader: LoaderFunction = async ({
   request,
 }): Promise<VoteStatus | Response> => {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("userId")) return redirect("/login");
-
-  const user = await prisma.user.findFirst({
-    where: {
-      id: session.get("userId"),
-    },
-  });
+  const user = await getUser(request);
   if (!user) return redirect("/login");
 
   return checkVoteStatus(user);
