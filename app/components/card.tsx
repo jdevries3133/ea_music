@@ -1,4 +1,4 @@
-import { Link } from "remix";
+mport { Link } from "remix";
 
 export const Card: React.FC<{
   imageSrc: string;

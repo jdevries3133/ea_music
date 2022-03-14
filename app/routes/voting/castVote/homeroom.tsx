@@ -44,12 +44,12 @@ export const action: ActionFunction = async ({ request }) => {
   // possible choices
   const all = await listPosters();
   const posters = filterPosters(all);
-  const homeroomPostes = posters.homeroom[homeroomCode];
+  const homeroomPosters = posters.homeroom[homeroomCode];
   if (
     winner &&
-    homeroomPostes.includes(winner as string) &&
+    homeroomPosters.includes(winner as string) &&
     loser &&
-    homeroomPostes.includes(loser as string)
+    homeroomPosters.includes(loser as string)
   ) {
     countVote(
       {
