@@ -64,6 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
       voteCounted: true,
     };
   }
+  return redirect("/noMoreThings");
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
