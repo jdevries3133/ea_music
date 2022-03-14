@@ -23,8 +23,10 @@ export const randomSelect = async (
       type: voteType,
     },
   });
-  const seenWinners = seen.map((i) => i.winner);
-  const posterChoices = posterPaths.filter((p) => !seenWinners.includes(p));
+  const eliminatedLosers = seen.map((i) => i.loser);
+  const posterChoices = posterPaths.filter(
+    (p) => !eliminatedLosers.includes(p)
+  );
 
   if (posterChoices.length < 2) {
     return null;
@@ -39,7 +41,7 @@ export const randomSelect = async (
   }
 
   return {
-    posterA: posterPaths[a],
-    posterB: posterPaths[b],
+    posterA: posterChoices[a],
+    posterB: posterChoices[b],
   };
 };
