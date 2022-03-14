@@ -1,9 +1,15 @@
+docker-compose.yml
+docker-compose.debug.yml
+Dockerfile
+
 node_modules
 
 /.cache
 /build
 /public/build
 .env
+
+Session.vim
 
 app/tailwind.css
 
