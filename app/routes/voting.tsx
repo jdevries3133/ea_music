@@ -1,4 +1,11 @@
-import { Link, LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
+import {
+  Link,
+  LoaderFunction,
+  Outlet,
+  redirect,
+  useLoaderData,
+  useTransition,
+} from "remix";
 
 import { getSession } from "~/sessions";
 import prisma from "~/prisma";
@@ -18,8 +25,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Voting() {
+  const { state } = useTransition();
   const name = useLoaderData();
-  return (
+  return state === "loading" ? (
+    <div className="min-h-screen flex items-center justify-center">
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <>
       <div className="m-3">
         <span className="font-bold">Name: </span>
