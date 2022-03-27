@@ -89,10 +89,6 @@ export default function School() {
   const [choice, setChoice] = useState("");
   const { posterA, posterB, error } = useLoaderData();
 
-  if (posterA === undefined) {
-    return redirect("/noMoreThings");
-  }
-
   if (error) {
     return (
       <>
