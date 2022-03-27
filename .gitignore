@@ -16,3 +16,5 @@ secret.auto.tfvars
 
 __pycache__
 *.pyc
+
+*.log
