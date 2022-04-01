@@ -14,7 +14,7 @@ const { getSession, commitSession, destroySession } =
           : "localhost",
       expires: new Date(Date.now() + 60_000),
       httpOnly: true,
-      maxAge: 60,
+      maxAge: 600,
       path: "/",
       secrets: [process.env.SECRET_KEY || ""],
       sameSite: "lax",

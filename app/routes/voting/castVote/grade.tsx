@@ -16,6 +16,7 @@ import { randomSelect } from "~/services/randomSelect";
 import { countVote } from "~/services/countVote";
 import prisma from "~/prisma";
 import { getUser } from "~/services/getUser";
+import { isDoneVoting } from "~/services/checkVoteStatus";
 
 export const action: ActionFunction = async ({ request }) => {
   const user = await getUser(request);
@@ -83,6 +84,9 @@ export const loader: LoaderFunction = async ({ request }) => {
       posterA,
       posterB,
     };
+  }
+  if (await isDoneVoting(user)) {
+    return redirect("/voting/results");
   }
   return redirect("/noMoreThings");
 };

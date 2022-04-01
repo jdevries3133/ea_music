@@ -40,10 +40,8 @@ export const VotesRemaining: React.FC<{ status: VoteStatus }> = ({
           </p>
         )}
         <p className="text-sm italic font-light">
-          Note!!! Mr. DeVries didn't actually finish the page where you can see
-          results. Even if you finish voting today, you won't be able to see the
-          results. You will be able to see the results very soon, though
-          (probably tomorrow)!!
+          The results page is ready, and it's really cool, but you can't see it
+          until you finish voting!!
         </p>
       </div>
     </div>

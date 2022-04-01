@@ -14,21 +14,12 @@ import filterPosters from "~/utils/filterPosters";
 import { randomSelect } from "~/services/randomSelect";
 import { countVote } from "~/services/countVote";
 import prisma from "~/prisma";
+import { isDoneVoting } from "~/services/checkVoteStatus";
+import { getUser } from "~/services/getUser";
 
 export const action: ActionFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session.get("userId"),
-    },
-  });
-  if (!user) {
-    return { error: "user could not be created" };
-  }
-
+  const user = await getUser(request);
+  if (!user) return redirect("/login");
   const form = await request.formData();
   const winner = form.get("posterChoice");
   const loser = form.get("loser");
@@ -51,10 +42,11 @@ export const action: ActionFunction = async ({ request }) => {
       },
       user
     );
-    return {
-      voteCounted: true,
-    };
   }
+  if (await isDoneVoting(user)) {
+    return redirect("/voting/results");
+  }
+  return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -82,7 +74,10 @@ export const loader: LoaderFunction = async ({ request }) => {
       posterB,
     };
   }
-  return redirect("/noMoreThings");
+  if (await isDoneVoting(user)) {
+    return redirect("/voting/results");
+  }
+  return null;
 };
 
 export default function School() {

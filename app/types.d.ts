@@ -1,4 +1,4 @@
-declare enum Homerooms {
+declare enum HomeroomsTypes {
   "4A",
   "4B",
   "4C",
@@ -23,5 +23,7 @@ declare enum Homerooms {
 
 type Student = {
   name: string;
-  homeroom: keyof typeof Homerooms;
+  homeroom: keyof typeof HomeroomsTypes;
 };
+
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;

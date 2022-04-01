@@ -14,6 +14,13 @@ export type VoteStatus = {
   };
 };
 
+export const isDoneVoting = async (user: User): Promise<boolean> => {
+  return !(await checkVoteStatus(user)).votesRemaining;
+};
+
+/**
+ * Get information to evaluate whether or not a student is finished voting
+ */
 export const checkVoteStatus = async (user: User): Promise<VoteStatus> => {
   // fetch information
   const student = students.find((s) => s.name === user.studentName);

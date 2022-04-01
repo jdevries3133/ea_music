@@ -1,13 +1,11 @@
 import { LoaderFunction, redirect } from "remix";
 import { Card } from "~/components/card";
 
-import { getSession } from "~/sessions";
+import { getUser } from "~/services/getUser";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
+  const user = await getUser(request);
+  if (!user) return redirect("/login");
   return null;
 };
 
