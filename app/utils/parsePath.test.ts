@@ -1,4 +1,22 @@
-import { parsePath } from "./parsePath";
+
+import { parsePath, isValid } from "./parsePath";
+
+describe('path isValid', () => {
+  it("returns false for invalid grade", () => {
+    expect(isValid("posters/8B/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+    expect(isValid("posters/1B/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+    expect(isValid("posters/2B/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+    expect(isValid("posters/9B/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+  });
+  it("returns false for invalid homeroom codes", () => {
+    expect(isValid("posters/4Z/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+    expect(isValid("posters/4a/Za'M Jose,Tally Tilly.jpg")).toBe(false);
+  });
+  it('returns false for incomplete path', () => {
+    expect(isValid("posters/4A/")).toBe(false);
+    expect(isValid("posters/7B/")).toBe(false);
+  })
+})
 
 describe("parsePath", () => {
   it("parses name with single path", () => {

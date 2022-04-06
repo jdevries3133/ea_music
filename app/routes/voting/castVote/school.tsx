@@ -16,6 +16,7 @@ import { countVote } from "~/services/countVote";
 import prisma from "~/prisma";
 import { isDoneVoting } from "~/services/checkVoteStatus";
 import { getUser } from "~/services/getUser";
+import { raw } from "@prisma/client/runtime";
 
 export const action: ActionFunction = async ({ request }) => {
   const user = await getUser(request);
@@ -27,6 +28,7 @@ export const action: ActionFunction = async ({ request }) => {
   // to validate the choice, we will ensure that it is included in all the
   // possible choices
   const all = await listPosters();
+  console.log(all)
   const posters = filterPosters(all);
   if (
     winner &&

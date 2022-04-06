@@ -1,3 +1,9 @@
+const POSTER_PATH_PATTERN = /posters\/([4567])([ABCDE])\/(.*)\.(jpg|png)/
+
+export const isValid = (path: string) : boolean =>  {
+  return POSTER_PATH_PATTERN.test(path)
+}
+
 /**
  * Paths to posters inside the S3 bucket stores a lot of information about
  * posters, which makes it possible to keep information about students out of
@@ -14,7 +20,7 @@ export const parsePath = (
   homeroom: keyof typeof HomeroomsTypes;
   students: string[];
 } => {
-  const exp = path.match(/posters\/([4567])([ABCDE])\/(.*)\.(jpg|png)/);
+  const exp = path.match(POSTER_PATH_PATTERN );
   if (!exp) {
     throw new Error(`path is invalid: ${path}`);
   }

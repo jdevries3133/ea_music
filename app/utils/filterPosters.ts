@@ -1,4 +1,5 @@
 import { ListObjectsCommandOutput } from "@aws-sdk/client-s3";
+import { isValid } from "./parsePath";
 
 export type FilteredPosters = {
   all: string[];
@@ -13,7 +14,10 @@ export type FilteredPosters = {
 export default function filterPosters(
   posters: ListObjectsCommandOutput
 ): FilteredPosters {
-  const allRaw = posters.Contents ? posters.Contents.map(({ Key }) => Key) : [];
+  const allRaw = posters.Contents ? posters.Contents.map(({ Key }) => Key).filter((path=> path && isValid(path))) : [];
+  console.log(allRaw)
+
+  // make typescript happy
   let all: string[] = [];
   allRaw.forEach((item) => {
     if (typeof item === "string") {
