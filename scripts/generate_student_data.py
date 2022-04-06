@@ -11,7 +11,7 @@ This script uses my own teacherhelper library:
 
 import json
 
-from teacherhelper import Helper
+from teacherhelper.sis import Sis
 
 
 TEACHER_NAME_TO_HOMEROOM_CODE = {
@@ -43,11 +43,11 @@ TEACHER_NAME_TO_HOMEROOM_CODE = {
 
 
 if __name__ == '__main__':
-    helper = Helper.read_cache()
+    sis = Sis.read_cache()
     data = [
         {'name': s.name,
          'homeroom': TEACHER_NAME_TO_HOMEROOM_CODE[s.homeroom]}
-        for s in helper.students.values()  # type: ignore
+        for s in sis.students.values()  # type: ignore
     ]
 
     with open('student_data.json', 'w') as fp:
