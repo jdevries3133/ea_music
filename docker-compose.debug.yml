@@ -31,7 +31,7 @@ services:
       STUDENT_DATA: ${STUDENT_DATA}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      SECRET_KEY: ${SECRET_KEY}
+      SECRET_KEY: anything
     # Prisma is broken on arm; see https://github.com/prisma/prisma/issues/10761
     platform: linux/amd64
   db:
