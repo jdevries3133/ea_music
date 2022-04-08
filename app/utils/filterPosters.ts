@@ -14,9 +14,11 @@ export type FilteredPosters = {
 export default function filterPosters(
   posters: ListObjectsCommandOutput
 ): FilteredPosters {
-  const allRaw = posters.Contents ? posters.Contents.map(({ Key }) => Key).filter((path=> path && isValid(path))) : [];
-  console.log(allRaw)
-
+  const allRaw = posters.Contents
+    ? posters.Contents.map(({ Key }) => Key).filter(
+        (path) => path && isValid(path)
+      )
+    : [];
   // make typescript happy
   let all: string[] = [];
   allRaw.forEach((item) => {
