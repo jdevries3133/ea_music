@@ -21,8 +21,8 @@ export type SchoolOpts = {
 };
 
 type LoaderData = SchoolOpts & {
-  results: UnwrapPromise<ReturnType<typeof votingResults>>;
-  posters: UnwrapPromise<ReturnType<typeof filterPosters>>;
+  results: Awaited<ReturnType<typeof votingResults>>;
+  posters: Awaited<ReturnType<typeof filterPosters>>;
 };
 
 const validateSchoolOpts = (grade: any, homeroom: any): SchoolOpts => {

@@ -25,5 +25,3 @@ type Student = {
   name: string;
   homeroom: keyof typeof HomeroomsTypes;
 };
-
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
