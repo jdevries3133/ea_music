@@ -1,0 +1,41 @@
+name: CI/CD
+
+on: push
+
+jobs:
+  deploy:
+
+    name: deploy code
+    runs-on: ubuntu-latest
+    environment: Kubernetes
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: login to docker hub
+      uses: docker/login-action@v1
+      with:
+        username: jdevries3133
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: setup kubectl
+      run: |
+        mkdir ~/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+    - name: setup student data
+      env:
+        STUDENT_DATA: ${{ secrets.STUDENT_DATA }}
+      run: echo $STUDENT_DATA > student_data.json
+
+    - name: run `make all` to push container and deploy via terraform
+      env:
+        # these credentials are for the S3 bucket holding terraform state
+        AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_STATE_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_STATE_AWS_SECRET_ACCESS_KEY }}
+        # these are for the bucket with student images, which the app uses at
+        # runtime
+        TF_VAR_aws_access_key_id: ${{ secrets.APP_AWS_ACCESS_KEY_ID }}
+        TF_VAR_aws_secret_access_key: ${{ secrets.APP_AWS_SECRET_ACCESS_KEY }}
+      run: make

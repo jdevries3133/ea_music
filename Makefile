@@ -9,8 +9,12 @@ TAG?=$(shell git describe --tags)
 CONTAINER=$(DOCKER_ACCOUNT)/$(CONTAINER_NAME):$(TAG)
 
 
+
 .PHONY: deploy
 deploy: push
+ifdef CI
+	terraform init -input=false
+endif
 	terraform apply -auto-approve
 
 
