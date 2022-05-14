@@ -50,7 +50,7 @@ resource "random_password" "session_secret" {
 
 module "basic-deployment" {
   source  = "jdevries3133/basic-deployment/kubernetes"
-  version = "0.0.9"
+  version = "0.2.0"
 
   app_name  = "ea-music"
   container = "jdevries3133/ea_music:${data.external.git_describe.result.output}"
