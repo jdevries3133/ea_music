@@ -36,3 +36,10 @@ model Vote {
   // path to the poster in an S3 bucket
   loser String
 }
+
+model RudimentUnlocked {
+    id Int @id @default(autoincrement())
+    rudimentId Int
+    homeroom String
+    @@unique([rudimentId, homeroom])
+}

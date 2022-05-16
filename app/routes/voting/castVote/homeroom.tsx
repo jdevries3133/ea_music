@@ -54,7 +54,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (await isDoneVoting(user)) {
     return redirect("/voting/results");
   }
-  return redirect("/noMoreThings");
+  return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {

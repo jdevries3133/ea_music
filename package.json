@@ -12,6 +12,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate-dev": "prisma migrate dev",
     "prisma:migrate-prod": "prisma migrate deploy",
+    "prisma:seed": "ts-node scripts/seed.ts",
     "dev:remix": "cross-env PORT=8000 NODE_ENV=development remix dev",
     "postinstall": "remix setup node",
     "start": "cross-env PORT=8000 NODE_ENV=production remix-serve build",

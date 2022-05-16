@@ -6,7 +6,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install
 
-COPY schema.prisma .
+COPY prisma/schema.prisma .
 
 RUN yarn prisma:generate
 

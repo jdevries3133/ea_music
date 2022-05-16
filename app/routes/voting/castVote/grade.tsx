@@ -50,6 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
       voteCounted: true,
     };
   }
+  return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
